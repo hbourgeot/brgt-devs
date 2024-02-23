@@ -35,3 +35,12 @@ func (b *Brgt) GetVersionsFromDocument(id int) ([]Version, error) {
 	}
 	return versions, nil
 }
+
+func (b *Brgt) GetDocumentByValue(value string) ([]*Document, error) {
+	var d []*Document
+	if err := b.DB.Where("name LIKE ? OR description LIKE ? OR path LIKE ?", "%"+value+"%", "%"+value+"%", "%"+value+"%").Find(&d).Error; err != nil {
+		return nil, err
+	}
+
+	return d, nil
+}

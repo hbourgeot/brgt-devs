@@ -51,3 +51,12 @@ func (b *Brgt) GetDocumentsFromTask(id int) ([]Document, error) {
 	}
 	return documents, nil
 }
+
+func (b *Brgt) FindTasksByValue(value string) ([]*Task, error) {
+	var t []*Task
+	if err := b.DB.Where("name LIKE ? OR description LIKE ?", "%"+value+"%", "%"+value+"%").Find(&t).Error; err != nil {
+		return nil, err
+	}
+
+	return t, nil
+}

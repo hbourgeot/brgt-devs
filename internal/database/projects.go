@@ -43,3 +43,11 @@ func (b *Brgt) GetUsersFromProject(id int) ([]User, error) {
 	}
 	return users, nil
 }
+
+func (b *Brgt) FindProjectByValue(value string) (*Project, error) {
+	var p Project
+	if err := b.DB.Where("name LIKE ? OR description LIKE ?", "%"+value+"%", "%"+value+"%").First(&p).Error; err != nil {
+		return nil, err
+	}
+	return &p, nil
+}

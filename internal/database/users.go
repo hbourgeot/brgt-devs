@@ -51,3 +51,13 @@ func (b *Brgt) GetProjectsFromUser(id int) ([]Project, error) {
 	}
 	return projects, nil
 }
+
+// filter user by the value of any column, so, check if the value is similar to some column
+func (b *Brgt) GetUsersByValue(value string) ([]*User, error) {
+	var u []*User
+	if err := b.DB.Where("username LIKE ? OR email LIKE ?", "%"+value+"%", "%"+value+"%").Find(&u).Error; err != nil {
+		return nil, err
+	}
+
+	return u, nil
+}
